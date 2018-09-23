@@ -93,6 +93,9 @@ class PlayList(models.Model):
                                     through_fields=('playlist',
                                                     'track'))
 
+    def __str__(self):
+        return self.name
+
 
 class PlayListTrack(models.Model):
     playlist = models.ForeignKey(PlayList, on_delete=models.CASCADE)
