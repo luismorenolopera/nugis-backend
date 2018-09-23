@@ -64,7 +64,7 @@ class TrackArtist(models.Model):
 
     def __str__(self):
         return '{0} : {1}'.format(self.track.name,
-                                  self.artist.name)
+                                  self.artist.alias)
 
     class Meta:
         unique_together = ('track', 'artist')
