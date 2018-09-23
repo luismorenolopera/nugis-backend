@@ -29,18 +29,21 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-INSTALLED_APPS = [
-    # Django apps
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # My apps
+]
+THIRD_PARTY_APPS = []
+LOCAL_APPS = [
     'music',
 ]
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,3 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
