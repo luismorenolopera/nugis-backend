@@ -1,8 +1,9 @@
+from django.db import models
+from django.db.models.signals import pre_save, post_delete, post_save
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.db import models
-from django.db.models.signals import pre_save, post_delete
 from django.dispatch.dispatcher import receiver
+from rest_framework.authtoken.models import Token
 from mutagen.mp3 import MP3
 
 
@@ -122,3 +123,10 @@ def get_duration(sender, instance, **kwargs):
 def delete_track(sender, instance, **kwargs):
     """Delete the file from a track after delete the track."""
     instance.file.delete(False)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    """Token for DRF."""
+    if created:
+        Token.objects.create(user=instance)
