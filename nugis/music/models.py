@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.db.models.signals import pre_save
+from django.dispatch.dispatcher import receiver
+from mutagen.mp3 import MP3
 
 
 class Album(models.Model):
@@ -40,6 +42,7 @@ class Track(models.Model):
     album = models.ForeignKey(Album,
                               on_delete=models.CASCADE,
                               related_name='tracks',
+                              blank=True,
                               null=True)
     artists = models.ManyToManyField(Artist,
                                      related_name='tracks',
@@ -107,3 +110,10 @@ class PlayListTrack(models.Model):
 
     class Meta:
         unique_together = ('playlist', 'track')
+
+
+@receiver(pre_save, sender=Track)
+def get_duration(sender, instance, **kwargs):
+    """Get the duration of a track before saving it."""
+    track = MP3(instance.file)
+    instance.duration = int(track.info.length)
