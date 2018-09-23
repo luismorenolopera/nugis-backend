@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_delete
 from django.dispatch.dispatcher import receiver
 from mutagen.mp3 import MP3
 
@@ -117,3 +117,8 @@ def get_duration(sender, instance, **kwargs):
     """Get the duration of a track before saving it."""
     track = MP3(instance.file)
     instance.duration = int(track.info.length)
+
+@receiver(post_delete, sender=Track)
+def delete_track(sender, instance, **kwargs):
+    """Delete the file from a track after delete the track."""
+    instance.file.delete(False)
