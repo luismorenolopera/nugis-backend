@@ -3,6 +3,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc 
 
 # C extensions
 *.so
@@ -273,3 +274,4 @@ nugis/media/
 .env
 .envs/*
 !.envs/.local/
+db.sqlite3
