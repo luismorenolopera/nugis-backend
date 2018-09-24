@@ -4,5 +4,6 @@ from .serializers import AlbumSerializer
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
+    """Doc for album view"""
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
