@@ -27,8 +27,8 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Nugis API",
       default_version='v1',
-      description="Test description",
-      terms_of_service="#",
+      description="API made with love",
+      terms_of_service="https://github.com/luismorenolopera/Nugis-Backend",
       contact=openapi.Contact(email="l.david1929@gmail.com"),
       license=openapi.License(name="MIT License"),
    ),
