@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = [
     'rest_framework.authtoken',
     'drf_yasg',
     'debug_toolbar',
+    'corsheaders',
 ]
 LOCAL_APPS = [
     'music',
@@ -62,6 +63,7 @@ DJANGO_MIDDLEWARE = [
 ]
 THIRD_PARTY_MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 MIDDLEWARE = DJANGO_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
 
@@ -152,3 +154,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+# CORS
+# https://github.com/ottoyiu/django-cors-headers
+
+CORS_ORIGIN_ALLOW_ALL = True
