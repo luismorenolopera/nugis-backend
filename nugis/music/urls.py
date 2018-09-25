@@ -3,6 +3,7 @@ from .views import (AlbumViewSet,
                     GenreViewSet,
                     TrackViewSet,
                     ArtistViewSet,
+                    PlayListViewSet,
                     )
 
 
@@ -11,5 +12,6 @@ router.register('albums', AlbumViewSet)
 router.register('genres', GenreViewSet)
 router.register('tracks', TrackViewSet)
 router.register('artists', ArtistViewSet)
+router.register('playlists', PlayListViewSet)
 
 urlpatterns = router.urls

@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import (Album,
                      Genre,
                      Track,
-                     Artist
+                     Artist,
+                     PlayList,
                      )
 
 
@@ -49,4 +50,15 @@ class ArtistDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ('id', 'alias', 'first_name', 'last_name', 'tracks')
+        depth = 2
+
+
+class PlayListSerializer(serializers.ModelSerializer):
+    owner = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
+    class Meta:
+        model = PlayList
+        fields = ('id', 'name', 'owner', 'tracks')
         depth = 2

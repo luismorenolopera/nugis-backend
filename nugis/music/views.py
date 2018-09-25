@@ -3,7 +3,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import (Album,
                      Genre,
                      Track,
-                     Artist
+                     Artist,
+                     PlayList,
                      )
 from .serializers import (AlbumSerializer,
                           GenreSerialializer,
@@ -11,6 +12,7 @@ from .serializers import (AlbumSerializer,
                           TrackSerializer,
                           ArtistSerializer,
                           ArtistDetailSerializer,
+                          PlayListSerializer,
                           )
 from nugis.pagination import (SortResultsSetPagination,
                               StandardResultsSetPagination,
@@ -52,3 +54,12 @@ class ArtistViewSet(viewsets.ModelViewSet):
         if self.action != 'retrieve':
             return ArtistSerializer
         return ArtistDetailSerializer
+
+
+class PlayListViewSet(viewsets.ModelViewSet):
+    queryset = PlayList.objects.all()
+    serializer_class = PlayListSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return PlayList.objects.filter(owner=user)
