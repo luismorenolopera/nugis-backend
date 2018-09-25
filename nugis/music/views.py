@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter
 from .models import (Album,
                      Gender,
                      Track,
@@ -18,9 +19,12 @@ class AlbumViewSet(viewsets.ModelViewSet):
     serializer_class = AlbumSerializer
 
 
+
 class GenderViewSet(viewsets.ModelViewSet):
     queryset = Gender.objects.all()
     serializer_class = GenderSerialializer
+    filter_backends = [SearchFilter,]
+    search_fields = ['name']
 
 
     def retrieve(self, request, pk):
