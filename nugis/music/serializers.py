@@ -14,6 +14,10 @@ class AlbumSerializer(serializers.ModelSerializer):
 
 
 class TrackSerializer(serializers.ModelSerializer):
+    upload_by = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     def validate_file(self, value):
         if value.content_type != 'audio/mp3':
             raise serializers.ValidationError('file type not allowed')
@@ -21,7 +25,15 @@ class TrackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Track
-        fields = '__all__'
+        fields = ('id',
+                  'file',
+                  'title',
+                  'duration',
+                  'upload_date',
+                  'upload_by',
+                  'album',
+                  'artists',
+                  'genders')
         read_only_fields = ('duration',)
         depth = 1
 

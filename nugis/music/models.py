@@ -40,6 +40,9 @@ class Track(models.Model):
     title = models.CharField(max_length=30)
     duration = models.PositiveSmallIntegerField(blank=True, null=True)
     upload_date = models.DateTimeField(auto_now_add=True)
+    upload_by = models.ForeignKey(User,
+                                  on_delete=models.DO_NOTHING,
+                                  related_name='tracks')
     album = models.ForeignKey(Album,
                               on_delete=models.CASCADE,
                               related_name='tracks',
