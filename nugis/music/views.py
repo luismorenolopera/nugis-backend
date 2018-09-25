@@ -9,6 +9,7 @@ from .serializers import (AlbumSerializer,
                           GenreDetailSerialializer,
                           TrackSerializer
                           )
+from nugis.pagination import SortResultsSetPagination
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
@@ -32,3 +33,4 @@ class TrackViewSet(viewsets.ModelViewSet):
     serializer_class = TrackSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title']
+    pagination_class = SortResultsSetPagination
