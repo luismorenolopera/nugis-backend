@@ -42,7 +42,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     pagination_class = SortResultsSetPagination
 
 
-class ArtisViewSet(viewsets.ModelViewSet):
+class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artist.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['alias', 'first_name', 'last_name']
