@@ -1,13 +1,13 @@
 from rest_framework.routers import DefaultRouter
 from .views import (AlbumViewSet,
-                    GenderViewSet,
+                    GenreViewSet,
                     TrackViewSet
                     )
 
 
 router = DefaultRouter()
 router.register('albums', AlbumViewSet)
-router.register('genders', GenderViewSet)
+router.register('genre', GenreViewSet)
 router.register('tracks', TrackViewSet)
 
 urlpatterns = router.urls

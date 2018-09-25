@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (Album,
-                     Gender,
+                     Genre,
                      Track,
                      )
 
@@ -18,17 +18,17 @@ class TrackSerializer(serializers.ModelSerializer):
         read_only_fields = ('duration',)
 
 
-class GenderSerialializer(serializers.ModelSerializer):
+class GenreSerialializer(serializers.ModelSerializer):
     class Meta:
-        model = Gender
+        model = Genre
         fields = '__all__'
 
 
-class GenderDetailSerialializer(serializers.ModelSerializer):
+class GenreDetailSerialializer(serializers.ModelSerializer):
     tracks = serializers.SerializerMethodField()
 
     class Meta:
-        model = Gender
+        model = Genre
         fields = ('id', 'name', 'tracks')
 
 
