@@ -17,7 +17,7 @@ class Album(models.Model):
         return self.name
 
 
-class Gender(models.Model):
+class Genre(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -37,7 +37,7 @@ class Artist(models.Model):
 
 class Track(models.Model):
     file = models.FileField(upload_to='documents/music')
-    name = models.CharField(max_length=30)
+    title = models.CharField(max_length=30)
     duration = models.PositiveSmallIntegerField(blank=True, null=True)
     upload_date = models.DateTimeField(auto_now_add=True)
     album = models.ForeignKey(Album,
@@ -50,14 +50,14 @@ class Track(models.Model):
                                      through='TrackArtist',
                                      through_fields=('track',
                                                      'artist'))
-    genders = models.ManyToManyField(Gender,
+    genders = models.ManyToManyField(Genre,
                                      related_name='tracks',
-                                     through='TrackGender',
+                                     through='TrackGenre',
                                      through_fields=('track',
                                                      'gender'))
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class TrackArtist(models.Model):
@@ -74,12 +74,12 @@ class TrackArtist(models.Model):
         unique_together = ('track', 'artist')
 
 
-class TrackGender(models.Model):
+class TrackGenre(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
-    gender = models.ForeignKey(Gender, on_delete=models.CASCADE)
+    gender = models.ForeignKey(Genre, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{0} : {1}'.format(self.track.name,
+        return '{0} : {1}'.format(self.track.title,
                                   self.gender.name)
 
 
