@@ -15,6 +15,7 @@ from nugis.pagination import SortResultsSetPagination
 class AlbumViewSet(viewsets.ModelViewSet):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
+    pagination_class = SortResultsSetPagination
 
 
 class GenreViewSet(viewsets.ModelViewSet):
