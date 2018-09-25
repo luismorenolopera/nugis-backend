@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import (Album,
                      Genre,
                      Track,
@@ -36,3 +36,5 @@ class GenreViewSet(viewsets.ModelViewSet):
 class TrackViewSet(viewsets.ModelViewSet):
     queryset = Track.objects.order_by('-upload_date')
     serializer_class = TrackSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['title']

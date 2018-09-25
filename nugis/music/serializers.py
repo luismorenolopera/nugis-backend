@@ -12,10 +12,17 @@ class AlbumSerializer(serializers.ModelSerializer):
 
 
 class TrackSerializer(serializers.ModelSerializer):
+    def validate_file(self, value):
+        if value.content_type != 'audio/mp3':
+            raise serializers.ValidationError('file type not allowed')
+        return value
+
     class Meta:
         model = Track
         fields = '__all__'
         read_only_fields = ('duration',)
+        depth = 1
+
 
 
 class GenreSerialializer(serializers.ModelSerializer):
@@ -25,17 +32,8 @@ class GenreSerialializer(serializers.ModelSerializer):
 
 
 class GenreDetailSerialializer(serializers.ModelSerializer):
-    tracks = serializers.SerializerMethodField()
 
     class Meta:
         model = Genre
         fields = ('id', 'name', 'tracks')
-
-
-    def get_tracks(self, obj):
-        request = self.context.get('request')
-        query = obj.tracks.all()
-        return TrackSerializer(query,
-                               many=True,
-                               context={'request': request}
-                               ).data
+        depth = 2
