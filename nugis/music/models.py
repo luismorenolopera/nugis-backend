@@ -67,8 +67,8 @@ class TrackArtist(models.Model):
                                 on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{0} : {1}'.format(self.track.name,
-                                  self.artist.alias)
+        return '{0} : {1}'.format(self.track,
+                                  self.artist)
 
     class Meta:
         unique_together = ('track', 'artist')
@@ -79,8 +79,8 @@ class TrackGenre(models.Model):
     gender = models.ForeignKey(Genre, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{0} : {1}'.format(self.track.title,
-                                  self.gender.name)
+        return '{0} : {1}'.format(self.track,
+                                  self.gender)
 
 
     class Meta:
@@ -106,8 +106,8 @@ class PlayListTrack(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{0} : {1}'.format(self.playlist.name,
-                                  self.track.name)
+        return '{0} : {1}'.format(self.playlist,
+                                  self.track)
 
     class Meta:
         unique_together = ('playlist', 'track')
