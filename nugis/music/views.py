@@ -1,6 +1,4 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
-from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import (Album,
                      Genre,
@@ -20,17 +18,13 @@ class AlbumViewSet(viewsets.ModelViewSet):
 
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
-    serializer_class = GenreSerialializer
-    filter_backends = [SearchFilter,]
+    filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['name']
 
-
-    def retrieve(self, request, pk):
-        query = get_object_or_404(Genre,
-                                  pk=pk)
-        serializer = GenreDetailSerialializer(query,
-                                               context={'request': request})
-        return Response(serializer.data)
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return GenreDetailSerialializer
+        return GenreSerialializer
 
 
 class TrackViewSet(viewsets.ModelViewSet):
