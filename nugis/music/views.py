@@ -3,13 +3,18 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import (Album,
                      Genre,
                      Track,
+                     Artist
                      )
 from .serializers import (AlbumSerializer,
                           GenreSerialializer,
                           GenreDetailSerialializer,
-                          TrackSerializer
+                          TrackSerializer,
+                          ArtistSerializer,
+                          ArtistDetailSerializer,
                           )
-from nugis.pagination import SortResultsSetPagination
+from nugis.pagination import (SortResultsSetPagination,
+                              StandardResultsSetPagination,
+                              )
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
@@ -24,9 +29,9 @@ class GenreViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return GenreDetailSerialializer
-        return GenreSerialializer
+        if self.action != 'retrieve':
+            return GenreSerialializer
+        return GenreDetailSerialializer
 
 
 class TrackViewSet(viewsets.ModelViewSet):
@@ -35,3 +40,15 @@ class TrackViewSet(viewsets.ModelViewSet):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title']
     pagination_class = SortResultsSetPagination
+
+
+class ArtisViewSet(viewsets.ModelViewSet):
+    queryset = Artist.objects.all()
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['alias', 'first_name', 'last_name']
+    pagination_class = StandardResultsSetPagination
+
+    def get_serializer_class(self):
+        if self.action != 'retrieve':
+            return ArtistSerializer
+        return ArtistDetailSerializer

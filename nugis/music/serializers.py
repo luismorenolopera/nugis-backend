@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import (Album,
                      Genre,
                      Track,
+                     Artist
                      )
 
 
@@ -32,8 +33,20 @@ class GenreSerialializer(serializers.ModelSerializer):
 
 
 class GenreDetailSerialializer(serializers.ModelSerializer):
-
     class Meta:
         model = Genre
         fields = ('id', 'name', 'tracks')
+        depth = 2
+
+
+class ArtistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = '__all__'
+
+
+class ArtistDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = ('id', 'alias', 'first_name', 'last_name', 'tracks')
         depth = 2
