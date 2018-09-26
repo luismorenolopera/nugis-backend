@@ -29,6 +29,8 @@ class TrackSerializer(serializers.ModelSerializer):
                   'file',
                   'title',
                   'duration',
+                  'in_youtube',
+                  'thumbnail',
                   'upload_date',
                   'upload_by',
                   'album',

@@ -1,4 +1,6 @@
 from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Album,
@@ -18,6 +20,7 @@ from .serializers import (AlbumSerializer,
 from nugis.pagination import (SortResultsSetPagination,
                               StandardResultsSetPagination,
                               )
+from .yt import extract_data
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
@@ -69,3 +72,11 @@ class PlayListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return PlayList.objects.filter(owner=user)
+
+
+class YouTubeTrackDownload(APIView):
+    def get(self, request, format=None):
+        return Response(extract_data(request.data['url']))
+
+    def post(self, request, format=None):
+        pass
