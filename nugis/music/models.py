@@ -39,7 +39,12 @@ class Track(models.Model):
     file = models.FileField(upload_to='documents/music')
     title = models.CharField(max_length=30)
     duration = models.PositiveSmallIntegerField(blank=True, null=True)
+    in_youtube = models.BooleanField(default=False)
+    thumbnail = models.URLField(default=None, blank=True, null=True)
     upload_date = models.DateTimeField(auto_now_add=True)
+    upload_by = models.ForeignKey(User,
+                                  on_delete=models.DO_NOTHING,
+                                  related_name='tracks')
     album = models.ForeignKey(Album,
                               on_delete=models.CASCADE,
                               related_name='tracks',

@@ -269,7 +269,7 @@ tags
 ### Project template
 
 nugis/media/
-
+migrations/
 .pytest_cache/
 .env
 .envs/*

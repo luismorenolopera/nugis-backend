@@ -1,9 +1,13 @@
 from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Album,
                      Genre,
                      Track,
-                     Artist
+                     Artist,
+                     PlayList,
                      )
 from .serializers import (AlbumSerializer,
                           GenreSerialializer,
@@ -11,10 +15,12 @@ from .serializers import (AlbumSerializer,
                           TrackSerializer,
                           ArtistSerializer,
                           ArtistDetailSerializer,
+                          PlayListSerializer,
                           )
 from nugis.pagination import (SortResultsSetPagination,
                               StandardResultsSetPagination,
                               )
+from .yt import extract_data
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
@@ -37,12 +43,17 @@ class GenreViewSet(viewsets.ModelViewSet):
 class TrackViewSet(viewsets.ModelViewSet):
     queryset = Track.objects.order_by('-upload_date')
     serializer_class = TrackSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['title']
+    filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
+    filter_fields = ('upload_by',)
+    search_fields = ('title',)
     pagination_class = SortResultsSetPagination
 
+    def get_queryset(self):
+        user = self.request.user
+        return Track.objects.filter(upload_by=user).order_by('-upload_date')
 
-class ArtisViewSet(viewsets.ModelViewSet):
+
+class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artist.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['alias', 'first_name', 'last_name']
@@ -52,3 +63,20 @@ class ArtisViewSet(viewsets.ModelViewSet):
         if self.action != 'retrieve':
             return ArtistSerializer
         return ArtistDetailSerializer
+
+
+class PlayListViewSet(viewsets.ModelViewSet):
+    queryset = PlayList.objects.all()
+    serializer_class = PlayListSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return PlayList.objects.filter(owner=user)
+
+
+class YouTubeTrackDownload(APIView):
+    def get(self, request, format=None):
+        return Response(extract_data(request.data['url']))
+
+    def post(self, request, format=None):
+        pass
