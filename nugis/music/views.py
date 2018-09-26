@@ -47,7 +47,7 @@ class TrackViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Track.objects.filter(upload_by=user)
+        return Track.objects.filter(upload_by=user).order_by('-upload_date')
 
 
 class ArtistViewSet(viewsets.ModelViewSet):
