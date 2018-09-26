@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Album,
                      Genre,
                      Track,
@@ -39,9 +40,14 @@ class GenreViewSet(viewsets.ModelViewSet):
 class TrackViewSet(viewsets.ModelViewSet):
     queryset = Track.objects.order_by('-upload_date')
     serializer_class = TrackSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['title']
+    filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
+    filter_fields = ('upload_by',)
+    search_fields = ('title',)
     pagination_class = SortResultsSetPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        return Track.objects.filter(upload_by=user)
 
 
 class ArtistViewSet(viewsets.ModelViewSet):
