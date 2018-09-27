@@ -2,7 +2,6 @@ from django.conf import settings
 from rest_framework.exceptions import NotFound
 import youtube_dl
 from .models import Track
-from .exeptions import VideoUnavailable
 
 
 OPTIONS = {
