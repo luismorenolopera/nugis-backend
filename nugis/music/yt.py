@@ -5,19 +5,6 @@ from rest_framework.exceptions import NotFound, ValidationError
 import youtube_dl
 from .models import Track
 from .serializers import TrackSerializer
-import linecache
-import sys
-
-def PrintException():
-    exc_type, exc_obj, tb = sys.exc_info()
-    f = tb.tb_frame
-    lineno = tb.tb_lineno
-    filename = f.f_code.co_filename
-    linecache.checkcache(filename)
-    line = linecache.getline(filename, lineno, f.f_globals)
-    print('EXCEPTION IN ({}, LINE {} "{}"): {}'.format(filename, lineno, line.strip(), exc_obj))
-
-
 
 
 OPTIONS = {
@@ -47,7 +34,7 @@ def extract_data_video(url):
 
 def download_video(url, user):
     filePath = 'documents/music/{0}.mp3'.format(url.split('watch?v=')[1])
-    if Track.objects.filter(file_data=filePath).exists():
+    if Track.objects.filter(file=filePath).exists():
         raise ValidationError({'detail': 'track exist'})
     try:
         with youtube_dl.YoutubeDL(OPTIONS) as ydl:
@@ -58,11 +45,10 @@ def download_video(url, user):
             thumbnail=info['thumbnail'],
             upload_by=user
         )
-        track.file_data.name = 'documents/music/{0}.mp3'.format(info['id'])
+        track.file.name = 'documents/music/{0}.mp3'.format(info['id'])
         track.save()
         serializer = TrackSerializer(track)
         return Response(serializer.data,
                         status=status.HTTP_201_CREATED)
     except:
-        PrintException()
         raise NotFound()

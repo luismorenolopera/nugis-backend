@@ -18,7 +18,7 @@ class TrackSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
 
-    def validate_file_data(self, value):
+    def validate_file(self, value):
         if value.content_type != 'audio/mp3':
             raise serializers.ValidationError('file type not allowed')
         return value
@@ -26,7 +26,7 @@ class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = ('id',
-                  'file_data',
+                  'file',
                   'title',
                   'duration',
                   'in_youtube',
