@@ -1,4 +1,5 @@
 from django.conf import settings
+from rest_framework.exceptions import NotFound
 import youtube_dl
 from .models import Track
 from .exeptions import VideoUnavailable
@@ -26,4 +27,4 @@ def extract_data_video(url):
                 'thumbnail': info['thumbnail']
                 }
     except Exception as e:
-        raise VideoUnavailable()
+        raise NotFound()
