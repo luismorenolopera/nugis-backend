@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Album,
                      Genre,
@@ -78,7 +79,7 @@ class YouTubeTrackDownload(APIView):
     def get(self, request, format=None):
         url = request.data['url']
         if len(url.split('list=')) > 1:
-            pass
+            raise ValidationError({'detail': 'playlist does not support.'})
         return Response(extract_data_video(url))
 
     def post(self, request, format=None):
