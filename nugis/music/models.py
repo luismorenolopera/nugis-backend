@@ -36,7 +36,7 @@ class Artist(models.Model):
 
 
 class Track(models.Model):
-    file = models.FileField(upload_to='documents/music')
+    file_data = models.FileField(upload_to='documents/music')
     title = models.CharField(max_length=30)
     duration = models.PositiveSmallIntegerField(blank=True, null=True)
     in_youtube = models.BooleanField(default=False)
@@ -118,16 +118,16 @@ class PlayListTrack(models.Model):
         unique_together = ('playlist', 'track')
 
 
-@receiver(pre_save, sender=Track)
-def get_duration(sender, instance, **kwargs):
-    """Get the duration of a track before saving it."""
-    track = MP3(instance.file)
-    instance.duration = int(track.info.length)
+# @receiver(post_save, sender=Track)
+# def get_duration(sender, instance, **kwargs):
+#     """Get the duration of a track before saving it."""
+#     track = MP3(instance.file_data)
+#     instance.duration = int(track.info.length)
 
 @receiver(post_delete, sender=Track)
 def delete_track(sender, instance, **kwargs):
     """Delete the file from a track after delete the track."""
-    instance.file.delete(False)
+    instance.file_data.delete(False)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

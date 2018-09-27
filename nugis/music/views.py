@@ -21,7 +21,7 @@ from .serializers import (AlbumSerializer,
 from nugis.pagination import (SortResultsSetPagination,
                               StandardResultsSetPagination,
                               )
-from .yt import extract_data_video
+from .yt import extract_data_video, download_video
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
@@ -83,4 +83,8 @@ class YouTubeTrackDownload(APIView):
         return Response(extract_data_video(url))
 
     def post(self, request, format=None):
-        pass
+        url = request.data['url']
+        user = self.request.user
+        if len(url.split('list=')) > 1:
+            raise ValidationError({'detail': 'playlist does not support.'})
+        return download_video(url, user)
