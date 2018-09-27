@@ -5,8 +5,9 @@ from .views import (AlbumViewSet,
                     TrackViewSet,
                     ArtistViewSet,
                     PlayListViewSet,
-                    YouTubeTrackDownload,
                     )
+
+from .APIyt import APIYouTube
 
 
 router = DefaultRouter()
@@ -19,7 +20,7 @@ router.register('playlists', PlayListViewSet)
 urlpatterns = [
     path(
         'yt_upload',
-        YouTubeTrackDownload.as_view()
+        APIYouTube.as_view()
     )
 ]
 

@@ -121,13 +121,14 @@ class PlayListTrack(models.Model):
 @receiver(pre_save, sender=Track)
 def get_duration(sender, instance, **kwargs):
     """Get the duration of a track before saving it."""
-    track = MP3(instance.file)
-    instance.duration = int(track.info.length)
+    if instance.file:
+        track = MP3(instance.file)
+        instance.duration = int(track.info.length)
 
 @receiver(post_delete, sender=Track)
 def delete_track(sender, instance, **kwargs):
     """Delete the file from a track after delete the track."""
-    instance.file.delete(False)
+    instance.file_data.delete(False)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
