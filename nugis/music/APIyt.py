@@ -38,7 +38,7 @@ class APIYouTube(APIView):
                     'url': info['webpage_url'],
                     'title': info['title'],
                     'thumbnail': info['thumbnail']
-                    }
+                }
             return Response(data)
         except Exception as e:
             raise NotFound()

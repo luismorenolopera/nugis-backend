@@ -40,7 +40,6 @@ class TrackSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-
 class GenreSerialializer(serializers.ModelSerializer):
     class Meta:
         model = Genre

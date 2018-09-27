@@ -68,8 +68,8 @@ class Track(models.Model):
 class TrackArtist(models.Model):
     track = models.ForeignKey(Track,
                               on_delete=models.CASCADE)
-    artist =  models.ForeignKey(Artist,
-                                on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist,
+                               on_delete=models.CASCADE)
 
     def __str__(self):
         return '{0} : {1}'.format(self.track,
@@ -86,7 +86,6 @@ class TrackGenre(models.Model):
     def __str__(self):
         return '{0} : {1}'.format(self.track,
                                   self.gender)
-
 
     class Meta:
         unique_together = ('track', 'gender')
@@ -124,6 +123,7 @@ def get_duration(sender, instance, **kwargs):
     if instance.file:
         track = MP3(instance.file)
         instance.duration = int(track.info.length)
+
 
 @receiver(post_delete, sender=Track)
 def delete_track(sender, instance, **kwargs):
