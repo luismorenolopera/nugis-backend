@@ -24,6 +24,8 @@ class APIYouTube(APIView):
         idYoutube = url.split('watch?v=')[1]
         filePath = 'documents/music/{0}.mp3'.format(idYoutube)
         track = Track.objects.filter(file=filePath)
+        if 'list=' in url:
+            raise ValidationError({'detail': 'playlist does not support.'})
         if track.exists():
             serializer = TrackSerializer(track.first(),
                                          context={'request': request})
@@ -45,7 +47,7 @@ class APIYouTube(APIView):
         user = request.user
         url = request.data['url']
         filePath = 'documents/music/{0}.mp3'.format(url.split('watch?v=')[1])
-        if len(url.split('list=')) > 1:
+        if 'list=' in url:
             raise ValidationError({'detail': 'playlist does not support.'})
         if Track.objects.filter(file=filePath).exists():
             raise ValidationError({'detail': 'track exist'})
@@ -56,6 +58,7 @@ class APIYouTube(APIView):
             track = Track.objects.create(
                 title=info['title'],
                 thumbnail=info['thumbnail'],
+                in_youtube=True,
                 upload_by=user
             )
             track.file.name = 'documents/music/{0}.mp3'.format(info['id'])
