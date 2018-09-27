@@ -20,7 +20,7 @@ from .serializers import (AlbumSerializer,
 from nugis.pagination import (SortResultsSetPagination,
                               StandardResultsSetPagination,
                               )
-from .yt import extract_data
+from .yt import extract_data_video
 
 
 class AlbumViewSet(viewsets.ModelViewSet):
@@ -76,7 +76,10 @@ class PlayListViewSet(viewsets.ModelViewSet):
 
 class YouTubeTrackDownload(APIView):
     def get(self, request, format=None):
-        return Response(extract_data(request.data['url']))
+        url = request.data['url']
+        if len(url.split('list=')) > 1:
+            pass
+        return Response(extract_data_video(url))
 
     def post(self, request, format=None):
         pass
