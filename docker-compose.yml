@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  django:
+  gunicorn:
     build: .
     volumes:
       - .:/app
@@ -12,13 +12,13 @@ services:
   nginx:
     image: nginx:1.13
     ports:
-      - 80:80
+      - 8000:80
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - static_volume:/opt/services/djangoapp/static
       - media_volume:/opt/services/djangoapp/media
     depends_on:
-      - django
+      - gunicorn
     networks:
       - nginx_network
 
@@ -27,6 +27,5 @@ networks:
     driver: bridge
 
 volumes:
-  database1_volume:
   static_volume:
   media_volume:

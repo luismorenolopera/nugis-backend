@@ -17,12 +17,14 @@ RUN apk update \
   # CFFI dependencies
   && apk add libffi-dev py-cffi
 
-# install our two dependencies
+# install requirements
 RUN pip install --no-cache-dir -r requirements.txt
+
+# collectstatic and manage migrations
 RUN cd nugis \
-  && python manage.py collectstatic \
-  && python manage.py makemigrations \
-  && python manage.py migrate
+  && python manage.py collectstatic --no-input \
+  && python manage.py makemigrations --no-input \
+  && python manage.py migrate --no-input
 # expose the port 8000
 EXPOSE 8000
 
