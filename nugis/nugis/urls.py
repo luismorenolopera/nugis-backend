@@ -24,29 +24,28 @@ from drf_yasg import openapi
 
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Nugis API",
-      default_version='v1',
-      description="API made with love",
-      terms_of_service="https://github.com/luismorenolopera/Nugis-Backend",
-      contact=openapi.Contact(email="l.david1929@gmail.com"),
-      license=openapi.License(name="MIT License"),
-   ),
-   validators=['ssv'],
-   public=True,
-   permission_classes=(AllowAny,),
+    openapi.Info(
+        title="Nugis API",
+        default_version='v1',
+        description="API made with love",
+        terms_of_service="https://github.com/luismorenolopera/Nugis-Backend",
+        contact=openapi.Contact(email="l.david1929@gmail.com"),
+        license=openapi.License(name="MIT License"),
+    ),
+    validators=['ssv'],
+    public=True,
+    permission_classes=(AllowAny,),
 )
-
 
 
 urlpatterns = [
     path(
         'admin/',
-         admin.site.urls
+        admin.site.urls
     ),
     path(
         'api-token-auth/',
-         views.obtain_auth_token
+        views.obtain_auth_token
     ),
     path(
         'api-auth',
@@ -61,16 +60,19 @@ urlpatterns = [
         schema_view.without_ui(cache_timeout=0),
         name='schema-json'
     ),
-    re_path(r'^swagger/$',
-            schema_view.with_ui('swagger', cache_timeout=0),
-            name='schema-swagger-ui'
+    re_path(
+        r'^swagger/$',
+        schema_view.with_ui('swagger', cache_timeout=0),
+        name='schema-swagger-ui'
     ),
-    re_path(r'^redoc/$',
-            schema_view.with_ui('redoc', cache_timeout=0),
-            name='schema-redoc'
+    re_path(
+        r'^redoc/$',
+        schema_view.with_ui('redoc', cache_timeout=0),
+        name='schema-redoc'
     ),
 ] + static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
 )
 
 if settings.DEBUG:
