@@ -128,7 +128,7 @@ def get_duration(sender, instance, **kwargs):
 @receiver(post_delete, sender=Track)
 def delete_track(sender, instance, **kwargs):
     """Delete the file from a track after delete the track."""
-    instance.file_data.delete(False)
+    instance.file.delete(False)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

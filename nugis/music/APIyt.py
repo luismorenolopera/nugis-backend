@@ -16,7 +16,7 @@ class APIYouTube(APIView):
             'preferredcodec': 'mp3',
             'preferredquality': '192'
         }],
-        'outtmpl': settings.BASE_DIR + '/media/documents/music/%(id)s.%(ext)s',
+        'outtmpl': settings.MEDIA_ROOT + '/documents/music/%(id)s.%(ext)s',
     }
 
     def get(self, request, format=None):
