@@ -22,11 +22,9 @@ RUN apk update \
 # install requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
-# collectstatic and manage migrations
+# collectstatic
 RUN cd nugis \
-  && python manage.py collectstatic --no-input \
-  && python manage.py makemigrations --no-input \
-  && python manage.py migrate --no-input
+  && python manage.py collectstatic --no-input
 # expose the port 8000
 EXPOSE 8000
 
