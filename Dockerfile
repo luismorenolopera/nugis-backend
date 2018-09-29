@@ -15,7 +15,9 @@ RUN apk update \
   # Pillow dependencies
   && apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev \
   # CFFI dependencies
-  && apk add libffi-dev py-cffi
+  && apk add libffi-dev py-cffi \
+  # youtube_dl dependencies
+  && apk add ffmpeg
 
 # install requirements
 RUN pip install --no-cache-dir -r requirements.txt
