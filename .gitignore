@@ -276,5 +276,3 @@ migrations/
 !.envs/.local/
 env/
 db.sqlite3
-
-config/db/postgres_env

@@ -3,6 +3,8 @@ version: '3'
 services:
   gunicorn:
     build: .
+    env_file:
+      - config/django/env
     volumes:
       - .:/opt/services/djangoapp/src
       - static_volume:/opt/services/djangoapp/static
@@ -27,7 +29,7 @@ services:
   postgres:
     image: postgres:10
     env_file:
-      - config/db/postgres_env
+      - config/postgres/.env
     networks:
       - postgres_network
     volumes:
