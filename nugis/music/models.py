@@ -37,7 +37,7 @@ class Artist(models.Model):
 
 class Track(models.Model):
     file = models.FileField(upload_to='documents/music')
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=100)
     duration = models.PositiveSmallIntegerField(blank=True, null=True)
     in_youtube = models.BooleanField(default=False)
     thumbnail = models.URLField(default=None, blank=True, null=True)

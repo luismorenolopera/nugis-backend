@@ -9,6 +9,9 @@ services:
       - media_volume:/opt/services/djangoapp/media
     networks:
       - nginx_network
+      - postgres_network
+    depends_on:
+      - postgres
   nginx:
     image: nginx:1.13
     ports:
@@ -21,11 +24,22 @@ services:
       - gunicorn
     networks:
       - nginx_network
+  postgres:
+    image: postgres:10
+    env_file:
+      - config/db/postgres_env
+    networks:
+      - postgres_network
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
 
 networks:
   nginx_network:
+    driver: bridge
+  postgres_network:
     driver: bridge
 
 volumes:
   static_volume:
   media_volume:
+  postgres_volume:

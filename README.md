@@ -15,6 +15,19 @@ $ docker-compose run gunicorn python nugis/manage.py createsuperuser
 
 check 'localhost'
 
+### Set your ENV
+#### Postgres
+
+```sh
+$ touch config/db/postgres_env
+```
+in file
+```txt
+POSTGRES_USER=postgres_role
+POSTGRES_PASSWORD=postgres_password
+POSTGRES_DB=postgres
+```
+
 ### Aditional configurarion
 You need to get the path to media_volume and grant read and write permissions
 
