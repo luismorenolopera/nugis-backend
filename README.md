@@ -1,4 +1,6 @@
 # Nugis
+<img src="https://image.ibb.co/n8C5De/image_1.png" alt="nugis_logo" width="200"/>
+
 Nugis is a personal app of audio streaming
 
 ### Docker
