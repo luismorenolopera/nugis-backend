@@ -29,4 +29,8 @@ RUN cd nugis \
 EXPOSE 8000
 
 # define the default command to run when starting the container
-CMD ["gunicorn", "--chdir", "nugis", "--bind", ":8000", "nugis.wsgi:application"]
+CMD ["gunicorn", \
+     "--chdir", "nugis", \
+     "--bind", ":8000", \
+     "nugis.wsgi:application"
+]

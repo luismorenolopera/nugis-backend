@@ -1,6 +1,23 @@
 # Nugis
+<img src="https://image.ibb.co/n8C5De/image_1.png" alt="nugis_logo" width="200"/>
+
 Nugis is a personal app of audio streaming
 
+### Set your ENV
+#### Postgres
+
+```sh
+$ touch config/postgres/.env
+$ vim config/postgres/.env
+```
+
+in config/postgres/.env
+
+```txt
+POSTGRES_USER=postgres_role
+POSTGRES_PASSWORD=postgres_password
+POSTGRES_DB=postgres
+```
 ### Docker
 using nugis with docker is very simple, you need docker and docker-compose, by default it will run on port 80
 
