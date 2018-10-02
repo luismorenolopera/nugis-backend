@@ -8,7 +8,6 @@ Nugis is a personal app of audio streaming
 
 ```sh
 $ touch config/postgres/.env
-$ vim config/postgres/.env
 ```
 
 in config/postgres/.env
@@ -18,6 +17,21 @@ POSTGRES_USER=postgres_role
 POSTGRES_PASSWORD=postgres_password
 POSTGRES_DB=postgres_db
 ```
+
+#### Django
+
+```sh
+$ touch config/django/.env
+```
+
+in config/django/.env
+
+```txt
+DEBUG=ON
+SECRET_KEY=wu$!2-h800e^p5gw(1gwe-=iwri8$2_j)903+^c6)k8eo4wl1-
+ALLOWED_HOST=167.99.149.8
+```
+
 ### Docker
 using nugis with docker is very simple, you need docker and docker-compose, by default it will run on port 80
 

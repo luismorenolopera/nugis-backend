@@ -5,6 +5,7 @@ services:
     build: .
     env_file:
       - config/postgres/.env
+      - config/django/.env
     volumes:
       - .:/opt/services/djangoapp/src
       - static_volume:/opt/services/djangoapp/static
