@@ -4,7 +4,8 @@ services:
   gunicorn:
     build: .
     env_file:
-      - config/django/env
+      - config/django/.env
+      - config/postgres/.env
     volumes:
       - .:/opt/services/djangoapp/src
       - static_volume:/opt/services/djangoapp/static
