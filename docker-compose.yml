@@ -27,7 +27,7 @@ services:
   postgres:
     image: postgres:10
     env_file:
-      - config/db/postgres_env
+      - config/postgres/.env
     networks:
       - postgres_network
     volumes:
