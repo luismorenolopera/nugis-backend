@@ -27,7 +27,7 @@ SECRET_KEY = env('SECRET_KEY', default='wu$!2-h800e^p5gw(1gwe-=iwri8$2_j)903+^c6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # False if not in os.environ
-DEBUG = env('DEBUG')
+DEBUG = env('DEBUG', default=False)
 
 ALLOWED_HOSTS = [
     env('ALLOWED_HOST', default='127.0.0.1')
