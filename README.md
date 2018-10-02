@@ -8,7 +8,6 @@ Nugis is a personal app of audio streaming
 
 ```sh
 $ touch config/postgres/.env
-$ vim config/postgres/.env
 ```
 
 in config/postgres/.env
@@ -16,8 +15,23 @@ in config/postgres/.env
 ```txt
 POSTGRES_USER=postgres_role
 POSTGRES_PASSWORD=postgres_password
-POSTGRES_DB=postgres
+POSTGRES_DB=postgres_db
 ```
+
+#### Django
+
+```sh
+$ touch config/django/.env
+```
+
+in config/django/.env
+
+```txt
+DEBUG=ON
+SECRET_KEY=wu$!2-h800e^p5gw(1gwe-=iwri8$2_j)903+^c6)k8eo4wl1-
+ALLOWED_HOST=167.99.149.8
+```
+
 ### Docker
 using nugis with docker is very simple, you need docker and docker-compose, by default it will run on port 80
 
@@ -38,27 +52,30 @@ You need to get the path to media_volume and grant read and write permissions
 ```sh
 $ docker volume ls
 DRIVER              VOLUME NAME
-local               nugisbackend_media_volume
-local               nugisbackend_static_volume
+local               nugis-backend_media_volume
+local               nugis-backend_postgres_volume
+local               nugis-backend_static_volume
 ```
-use nugisbackend_media_volume
+use nugis-backend_media_volume
 
 ```sh
-$ docker inspect volume nugisbackend_media_volume
+$ docker inspect volume nugis-backend_media_volume
 [
     {
-        "CreatedAt": "2018-09-29T21:58:46Z",
+        "CreatedAt": "2018-10-02T09:20:18Z",
         "Driver": "local",
         "Labels": {
-            "com.docker.compose.project": "nugisbackend",
+            "com.docker.compose.project": "nugis-backend",
+            "com.docker.compose.version": "1.22.0",
             "com.docker.compose.volume": "media_volume"
         },
-        "Mountpoint": "/var/lib/docker/volumes/nugisbackend_media_volume/_data",
-        "Name": "nugisbackend_media_volume",
+        "Mountpoint": "/var/lib/docker/volumes/nugis-backend_media_volume/_data",
+        "Name": "nugis-backend_media_volume",
         "Options": null,
         "Scope": "local"
     }
 ]
+
 ```
 
 use Mountpoint

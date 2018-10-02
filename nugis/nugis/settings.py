@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +23,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wu$!2-h800e^p5gw(1gwe-=iwri8$2_j)903+^c6)k8eo4wl1-'
+SECRET_KEY = env('SECRET_KEY', default='wu$!2-h800e^p5gw(1gwe-=iwri8$2_j)903+^c6)k8eo4wl1-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# False if not in os.environ
+DEBUG = env('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    env('ALLOWED_HOST', default='127.0.0.1')
+]
 
 
 # Application definition
@@ -95,9 +101,9 @@ WSGI_APPLICATION = 'nugis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres_role',
-        'PASSWORD': 'postgres_password',
+        'NAME':env('POSTGRES_DB', default='postgres_db'),
+        'USER': env('POSTGRES_USER', default='postgres_role'),
+        'PASSWORD': env('POSTGRES_PASSWORD', default='postgres_password'),
         'HOST': 'postgres',
         'PORT': '5432',
     }
