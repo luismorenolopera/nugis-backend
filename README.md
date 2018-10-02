@@ -16,7 +16,7 @@ in config/postgres/.env
 ```txt
 POSTGRES_USER=postgres_role
 POSTGRES_PASSWORD=postgres_password
-POSTGRES_DB=postgres
+POSTGRES_DB=postgres_db
 ```
 ### Docker
 using nugis with docker is very simple, you need docker and docker-compose, by default it will run on port 80
