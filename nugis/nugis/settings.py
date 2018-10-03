@@ -155,7 +155,8 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'media')
 
 MEDIA_URL = '/media/'
 
-INTERNAL_IPS = '127.0.0.1'
+# THIRD_PARTY_APPS settings
+# https://docs.sentry.io/clients/python/integrations/django/
 
 SENTRY_DSN = env('SENTRY_DSN', default=None)
 SENTRY_CLIENT = 'raven.contrib.django.raven_compat.DjangoClient'
@@ -211,8 +212,6 @@ if SENTRY_DSN:
     RAVEN_CONFIG = {
         'dsn': SENTRY_DSN
     }
-
-# THIRD_PARTY_APPS settings
 
 # DRF settings
 # http://www.django-rest-framework.org/api-guide/settings/
