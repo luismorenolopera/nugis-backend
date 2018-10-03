@@ -22,6 +22,7 @@ Pillow==5.2.0
 psycopg2==2.7.5
 pytz==2018.5
 PyYAML==3.13
+raven==6.9.0
 requests==2.19.1
 ruamel.yaml==0.15.70
 six==1.11.0
