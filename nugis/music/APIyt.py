@@ -19,13 +19,14 @@ class APIYouTube(APIView):
         'outtmpl': settings.MEDIA_ROOT + '/documents/music/%(id)s.%(ext)s',
     }
 
-    def get(self, request, format=None):
-        url = request.data['url']
-        idYoutube = url.split('watch?v=')[1]
-        filePath = 'documents/music/{0}.mp3'.format(idYoutube)
+    def get(self, request):
+        try:
+            id = request.query_params['id']
+        except Exception as e:
+            raise ValidationError({'detail': 'id is required'})
+        filePath = 'documents/music/{0}.mp3'.format(id)
         track = Track.objects.filter(file=filePath)
-        if 'list=' in url:
-            raise ValidationError({'detail': 'playlist does not support.'})
+        url = 'https://www.youtube.com/watch?v={}'.format(id)
         if track.exists():
             serializer = TrackSerializer(track.first(),
                                          context={'request': request})
