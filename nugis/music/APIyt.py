@@ -44,12 +44,14 @@ class APIYouTube(APIView):
         except Exception as e:
             raise NotFound()
 
-    def post(self, request, format=None):
+    def post(self, request):
         user = request.user
-        url = request.data['url']
-        filePath = 'documents/music/{0}.mp3'.format(url.split('watch?v=')[1])
-        if 'list=' in url:
-            raise ValidationError({'detail': 'playlist does not support.'})
+        try:
+            id = request.data['id']
+        except:
+            raise ValidationError({'detail': 'id is required'})
+        filePath = 'documents/music/{0}.mp3'.format(id)
+        url = 'https://www.youtube.com/watch?v={}'.format(id)
         if Track.objects.filter(file=filePath).exists():
             raise ValidationError({'detail': 'track exist'})
         try:
