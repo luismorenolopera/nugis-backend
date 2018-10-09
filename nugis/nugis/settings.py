@@ -27,11 +27,9 @@ SECRET_KEY = env('SECRET_KEY', default='wu$!2-h800e^p5gw(1gwe-=iwri8$2_j)903+^c6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # False if not in os.environ
-DEBUG = env('DEBUG', default=False)
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    env('ALLOWED_HOST', default='127.0.0.1')
-]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -102,12 +100,8 @@ WSGI_APPLICATION = 'nugis.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':env('POSTGRES_DB', default='postgres_db'),
-        'USER': env('POSTGRES_USER', default='postgres_role'),
-        'PASSWORD': env('POSTGRES_PASSWORD', default='postgres_password'),
-        'HOST': 'postgres',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
