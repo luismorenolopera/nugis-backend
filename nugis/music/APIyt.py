@@ -65,6 +65,7 @@ class APIYouTube(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
+        id = serializer.data['id']
         user = request.user
         filePath = 'documents/music/{0}.mp3'.format(id)
         url = 'https://www.youtube.com/watch?v={}'.format(id)
