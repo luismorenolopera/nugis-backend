@@ -3,9 +3,11 @@ from rest_framework import status
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from youtube_dl import YoutubeDL
 from .models import Track
-from .serializers import TrackSerializer
+from .serializers import TrackSerializer, YoutubeSetSerializer
 
 
 class APIYouTube(APIView):
@@ -18,8 +20,17 @@ class APIYouTube(APIView):
         }],
         'outtmpl': settings.MEDIA_ROOT + '/documents/music/%(id)s.%(ext)s',
     }
+    id_get = openapi.Parameter('id',
+                               openapi.IN_QUERY,
+                               description='id from a youtube video',
+                               type=openapi.TYPE_STRING)
+    track_response = openapi.Response('Created', TrackSerializer)
 
+    @swagger_auto_schema(manual_parameters=[id_get])
     def get(self, request):
+        """
+        Return basic info from a youtube video.
+        """
         try:
             id = request.query_params['id']
         except Exception as e:
@@ -44,12 +55,18 @@ class APIYouTube(APIView):
         except Exception as e:
             raise NotFound()
 
+    @swagger_auto_schema(request_body=YoutubeSetSerializer,
+                         responses={201: track_response})
     def post(self, request):
+        """
+        Download a video in the app, Return a track.
+        """
         user = request.user
         try:
             id = request.data['id']
         except:
             raise ValidationError({'detail': 'id is required'})
+        return Response({'ok'})
         filePath = 'documents/music/{0}.mp3'.format(id)
         url = 'https://www.youtube.com/watch?v={}'.format(id)
         if Track.objects.filter(file=filePath).exists():
