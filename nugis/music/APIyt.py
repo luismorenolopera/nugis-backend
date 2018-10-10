@@ -61,12 +61,11 @@ class APIYouTube(APIView):
         """
         Download a video in the app, Return a track.
         """
+        serializer = YoutubeSetSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
         user = request.user
-        try:
-            id = request.data['id']
-        except:
-            raise ValidationError({'detail': 'id is required'})
-        return Response({'ok'})
         filePath = 'documents/music/{0}.mp3'.format(id)
         url = 'https://www.youtube.com/watch?v={}'.format(id)
         if Track.objects.filter(file=filePath).exists():
