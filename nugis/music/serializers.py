@@ -75,3 +75,7 @@ class PlayListSerializer(serializers.ModelSerializer):
         model = PlayList
         fields = ('id', 'name', 'owner', 'tracks')
         depth = 2
+
+
+class YoutubeSetSerializer(serializers.Serializer):
+    id = serializers.CharField(help_text='id from a youtube video')

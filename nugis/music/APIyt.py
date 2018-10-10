@@ -3,9 +3,11 @@ from rest_framework import status
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from youtube_dl import YoutubeDL
 from .models import Track
-from .serializers import TrackSerializer
+from .serializers import TrackSerializer, YoutubeSetSerializer
 
 
 class APIYouTube(APIView):
@@ -18,14 +20,24 @@ class APIYouTube(APIView):
         }],
         'outtmpl': settings.MEDIA_ROOT + '/documents/music/%(id)s.%(ext)s',
     }
+    id_get = openapi.Parameter('id',
+                               openapi.IN_QUERY,
+                               description='id from a youtube video',
+                               type=openapi.TYPE_STRING)
+    track_response = openapi.Response('Created', TrackSerializer)
 
-    def get(self, request, format=None):
-        url = request.data['url']
-        idYoutube = url.split('watch?v=')[1]
-        filePath = 'documents/music/{0}.mp3'.format(idYoutube)
+    @swagger_auto_schema(manual_parameters=[id_get])
+    def get(self, request):
+        """
+        Return basic info from a youtube video.
+        """
+        try:
+            id = request.query_params['id']
+        except Exception as e:
+            raise ValidationError({'detail': 'id is required'})
+        filePath = 'documents/music/{0}.mp3'.format(id)
         track = Track.objects.filter(file=filePath)
-        if 'list=' in url:
-            raise ValidationError({'detail': 'playlist does not support.'})
+        url = 'https://www.youtube.com/watch?v={}'.format(id)
         if track.exists():
             serializer = TrackSerializer(track.first(),
                                          context={'request': request})
@@ -43,12 +55,20 @@ class APIYouTube(APIView):
         except Exception as e:
             raise NotFound()
 
-    def post(self, request, format=None):
+    @swagger_auto_schema(request_body=YoutubeSetSerializer,
+                         responses={201: track_response})
+    def post(self, request):
+        """
+        Download a video in the app, Return a track.
+        """
+        serializer = YoutubeSetSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+        id = serializer.data['id']
         user = request.user
-        url = request.data['url']
-        filePath = 'documents/music/{0}.mp3'.format(url.split('watch?v=')[1])
-        if 'list=' in url:
-            raise ValidationError({'detail': 'playlist does not support.'})
+        filePath = 'documents/music/{0}.mp3'.format(id)
+        url = 'https://www.youtube.com/watch?v={}'.format(id)
         if Track.objects.filter(file=filePath).exists():
             raise ValidationError({'detail': 'track exist'})
         try:
