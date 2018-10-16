@@ -155,6 +155,8 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'media')
 
 MEDIA_URL = '/media/'
 
+FILE_UPLOAD_PERMISSIONS = 0o644
+
 # THIRD_PARTY_APPS settings
 # https://docs.sentry.io/clients/python/integrations/django/
 
