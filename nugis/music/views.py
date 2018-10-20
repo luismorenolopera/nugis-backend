@@ -1,8 +1,5 @@
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Album,
                      Genre,
@@ -23,13 +20,13 @@ from nugis.pagination import (SortResultsSetPagination,
                               )
 
 
-class AlbumViewSet(viewsets.ModelViewSet):
+class AlbumViewSet(ModelViewSet):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
     pagination_class = SortResultsSetPagination
 
 
-class GenreViewSet(viewsets.ModelViewSet):
+class GenreViewSet(ModelViewSet):
     queryset = Genre.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['name']
@@ -40,7 +37,7 @@ class GenreViewSet(viewsets.ModelViewSet):
         return GenreDetailSerialializer
 
 
-class TrackViewSet(viewsets.ModelViewSet):
+class TrackViewSet(ModelViewSet):
     queryset = Track.objects.order_by('-upload_date')
     serializer_class = TrackSerializer
     filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
@@ -53,7 +50,7 @@ class TrackViewSet(viewsets.ModelViewSet):
         return Track.objects.filter(upload_by=user).order_by('-upload_date')
 
 
-class ArtistViewSet(viewsets.ModelViewSet):
+class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['alias', 'first_name', 'last_name']
@@ -65,7 +62,7 @@ class ArtistViewSet(viewsets.ModelViewSet):
         return ArtistDetailSerializer
 
 
-class PlayListViewSet(viewsets.ModelViewSet):
+class PlayListViewSet(ModelViewSet):
     queryset = PlayList.objects.all()
     serializer_class = PlayListSerializer
 
