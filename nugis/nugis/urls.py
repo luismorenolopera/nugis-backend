@@ -55,6 +55,10 @@ urlpatterns = [
         'music/',
         include('music.urls')
     ),
+    path(
+        'users/',
+        include('users.urls')
+    ),
     re_path(
         r'^swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=0),
