@@ -45,10 +45,6 @@ class TrackViewSet(ModelViewSet):
     search_fields = ('title',)
     pagination_class = SortResultsSetPagination
 
-    def get_queryset(self):
-        user = self.request.user
-        return Track.objects.filter(upload_by=user).order_by('-upload_date')
-
 
 class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects.all()
