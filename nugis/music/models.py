@@ -43,7 +43,9 @@ class Track(models.Model):
     thumbnail = models.URLField(default=None, blank=True, null=True)
     upload_date = models.DateTimeField(auto_now_add=True)
     upload_by = models.ForeignKey(User,
-                                  on_delete=models.DO_NOTHING,
+                                  on_delete=models.SET_NULL,
+                                  blank=True,
+                                  null=True,
                                   related_name='tracks')
     album = models.ForeignKey(Album,
                               on_delete=models.CASCADE,
