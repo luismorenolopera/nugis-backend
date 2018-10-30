@@ -1,4 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Album,
@@ -6,6 +8,7 @@ from .models import (Album,
                      Track,
                      Artist,
                      PlayList,
+                     PlayListTrack,
                      )
 from .serializers import (AlbumSerializer,
                           GenreSerialializer,
@@ -65,3 +68,16 @@ class PlayListViewSet(ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return PlayList.objects.filter(owner=user)
+
+
+class TrackPlayListsView(APIView):
+    def post(self, request):
+        playlists_ids = request.data['playlists']
+        track_id = request.data['track']
+        track = Track.objects.get(pk=track_id)
+        PlayListTrack.objects.filter(playlist__owner=request.user,
+                                     track=track).delete()
+        for playlist_id in playlists_ids:
+            playlist = PlayList.objects.get(pk=playlist_id)
+            PlayListTrack(playlist=playlist, track=track).save()
+        return Response({'status': 'ok'})
