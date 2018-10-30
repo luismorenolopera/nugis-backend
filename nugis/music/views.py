@@ -17,6 +17,7 @@ from .serializers import (AlbumSerializer,
                           ArtistSerializer,
                           ArtistDetailSerializer,
                           PlayListSerializer,
+                          PlayListTrackSerializer,
                           )
 from nugis.pagination import (SortResultsSetPagination,
                               StandardResultsSetPagination,
@@ -71,6 +72,12 @@ class PlayListViewSet(ModelViewSet):
 
 
 class TrackPlayListsView(APIView):
+    def get(self, request):
+        track = request.query_params['id']
+        playlists = PlayListTrack.objects.filter(playlist__owner=request.user,
+                                                 track=track)
+        serializer = PlayListTrackSerializer(playlists, many=True)
+        return Response(serializer.data)
     def post(self, request):
         playlists_ids = request.data['playlists']
         track_id = request.data['track']
