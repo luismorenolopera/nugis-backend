@@ -79,3 +79,7 @@ class PlayListSerializer(serializers.ModelSerializer):
 
 class YoutubeSetSerializer(serializers.Serializer):
     id = serializers.CharField(help_text='id from a youtube video')
+
+
+class PlayListTrackSerializer(serializers.Serializer):
+    playlist = serializers.PrimaryKeyRelatedField(read_only=True)

@@ -5,6 +5,7 @@ from .views import (AlbumViewSet,
                     TrackViewSet,
                     ArtistViewSet,
                     PlayListViewSet,
+                    TrackPlayListsView,
                     )
 
 from .APIyt import APIYouTube
@@ -21,6 +22,10 @@ urlpatterns = [
     path(
         'yt_upload',
         APIYouTube.as_view()
+    ),
+    path(
+        'playlists/track',
+        TrackPlayListsView.as_view()
     )
 ]
 
