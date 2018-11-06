@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from .models import (Album,
                      Genre,
                      Track,
@@ -72,6 +74,14 @@ class PlayListViewSet(ModelViewSet):
 
 
 class TrackPlayListsView(APIView):
+    id_track = openapi.Parameter(
+        'id',
+        openapi.IN_QUERY,
+        description='track id',
+        type=openapi.TYPE_STRING
+    )
+
+    @swagger_auto_schema(manual_parameters=[id_track])
     def get(self, request):
         track = request.query_params['id']
         playlists = PlayListTrack.objects.filter(playlist__owner=request.user,
