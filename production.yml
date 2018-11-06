@@ -1,11 +1,14 @@
 version: '3'
 
 services:
-  gunicorn:
-    build: .
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: nugis_production_django
     env_file:
-      - config/postgres/.env
-      - config/django/.env
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
     volumes:
       - .:/opt/services/djangoapp/src
       - static_volume:/opt/services/djangoapp/static
@@ -24,13 +27,13 @@ services:
       - static_volume:/opt/services/djangoapp/static
       - media_volume:/opt/services/djangoapp/media
     depends_on:
-      - gunicorn
+      - django
     networks:
       - nginx_network
   postgres:
     image: postgres:10
     env_file:
-      - config/postgres/.env
+      - ./.envs/.production/.postgres
     networks:
       - postgres_network
     volumes:

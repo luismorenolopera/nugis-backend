@@ -6,11 +6,7 @@ Nugis is a personal app of audio streaming
 ### Set your ENV
 #### Postgres
 
-```sh
-$ touch config/postgres/.env
-```
-
-in config/postgres/.env
+in .envs/.production/.postgres
 
 ```txt
 POSTGRES_USER=postgres_role
@@ -20,11 +16,7 @@ POSTGRES_DB=postgres_db
 
 #### Django
 
-```sh
-$ touch config/django/.env
-```
-
-in config/django/.env
+in .envs/.production/.django
 
 ```txt
 DEBUG=ON
@@ -39,50 +31,17 @@ using nugis with docker is very simple, you need docker and docker-compose, by d
 ```sh
 $ git clone https://github.com/luismorenolopera/nugis-backend.git
 $ cd nugis-backend
-$ docker-compose up --build
-$ docker-compose run gunicorn python nugis/manage.py makemigrations
-$ docker-compose run gunicorn python nugis/manage.py migrate
-$ docker-compose run gunicorn python nugis/manage.py createsuperuser
+$ docker-compose -f production.yml up --build
+$ docker-compose -f production.yml run django nugis/manage.py migrate
+$ docker-compose -f production.yml run django nugis/manage.py createsuperuser
 ```
 
 check 'localhost'
 
-### Aditional configurarion
-You need to get the path to media_volume and grant read and write permissions
+note:
 
-```sh
-$ docker volume ls
-DRIVER              VOLUME NAME
-local               nugis-backend_media_volume
-local               nugis-backend_postgres_volume
-local               nugis-backend_static_volume
-```
-use nugis-backend_media_volume
-
-```sh
-$ docker inspect volume nugis-backend_media_volume
-[
-    {
-        "CreatedAt": "2018-10-02T09:20:18Z",
-        "Driver": "local",
-        "Labels": {
-            "com.docker.compose.project": "nugis-backend",
-            "com.docker.compose.version": "1.22.0",
-            "com.docker.compose.volume": "media_volume"
-        },
-        "Mountpoint": "/var/lib/docker/volumes/nugis-backend_media_volume/_data",
-        "Name": "nugis-backend_media_volume",
-        "Options": null,
-        "Scope": "local"
-    }
-]
-
-```
-
-use Mountpoint
-```sh
-# chmod -R 777 /var/lib/docker/volumes/nugis-backend_media_volume/_data
-```
+for production change production.yml for local.yml
+and localhost for localhost:8000
 
 ### Authors
 

@@ -1,4 +1,3 @@
-# start from an official image
 FROM python:3.6-alpine
 MAINTAINER Luis Moreno "l.david1929@gmail.com"
 
