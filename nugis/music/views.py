@@ -78,6 +78,7 @@ class TrackPlayListsView(APIView):
                                                  track=track)
         serializer = PlayListTrackSerializer(playlists, many=True)
         return Response(serializer.data)
+
     def post(self, request):
         playlists_ids = request.data['playlists']
         track_id = request.data['track']
