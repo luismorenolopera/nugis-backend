@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: nugis_local_django
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    volumes:
+      - .:/app/src
+      - local_media_volume:/app/media
+    networks:
+      - postgres_network
+    depends_on:
+      - postgres
+    command: python nugis/manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+  postgres:
+    image: postgres:10
+    env_file:
+      - ./.envs/.local/.postgres
+    networks:
+      - postgres_network
+    volumes:
+      - local_postgres_volume:/var/lib/postgresql/data
+
+networks:
+  postgres_network:
+    driver: bridge
+
+volumes:
+  local_media_volume:
+  local_postgres_volume:

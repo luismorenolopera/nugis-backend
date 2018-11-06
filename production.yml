@@ -33,7 +33,7 @@ services:
   postgres:
     image: postgres:10
     env_file:
-      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
     networks:
       - postgres_network
     volumes:

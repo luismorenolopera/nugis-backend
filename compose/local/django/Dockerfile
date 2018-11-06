@@ -1,10 +1,9 @@
-# start from an official image
 FROM python:3.6-alpine
 MAINTAINER Luis Moreno "l.david1929@gmail.com"
 
-RUN mkdir -p /opt/services/djangoapp/src
-WORKDIR /opt/services/djangoapp/src
-COPY . ./
+RUN mkdir /app
+WORKDIR /app
+COPY . /app/
 
 ENV PYTHONUNBUFFERED 1
 
@@ -21,16 +20,3 @@ RUN apk update \
 
 # install requirements
 RUN pip install --no-cache-dir -r requirements.txt
-
-# collectstatic
-RUN cd nugis \
-  && python manage.py collectstatic --no-input
-# expose the port 8000
-EXPOSE 8000
-
-# define the default command to run when starting the container
-CMD ["gunicorn", \
-     "--chdir", "nugis", \
-     "--bind", ":8000", \
-     "nugis.wsgi:application" \
-]
