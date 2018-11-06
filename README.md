@@ -39,7 +39,7 @@ check 'localhost'
 
 note:
 
-for production change production.yml for local.yml
+for local development change production.yml for local.yml
 and localhost for localhost:8000
 
 ### Authors
