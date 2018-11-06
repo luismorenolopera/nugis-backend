@@ -38,6 +38,11 @@ $ docker-compose -f production.yml run django nugis/manage.py createsuperuser
 
 check 'localhost'
 
+note:
+
+for production change production.yml for local.yml
+and localhost for localhost:8000
+
 ### Authors
 
 - Luis Moreno
