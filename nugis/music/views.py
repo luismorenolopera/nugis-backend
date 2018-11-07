@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from .models import (Album,
                      Genre,
                      Track,
@@ -18,6 +20,7 @@ from .serializers import (AlbumSerializer,
                           ArtistDetailSerializer,
                           PlayListSerializer,
                           PlayListTrackSerializer,
+                          PlaylistTrackSerializerBody,
                           )
 from nugis.pagination import (SortResultsSetPagination,
                               StandardResultsSetPagination,
@@ -72,6 +75,16 @@ class PlayListViewSet(ModelViewSet):
 
 
 class TrackPlayListsView(APIView):
+    id_track_get = openapi.Parameter(
+        'id',
+        openapi.IN_QUERY,
+        description='track id',
+        type=openapi.TYPE_INTEGER
+    )
+    description_post = 'receives the id of a track and the list of id ' \
+                       'from the playlists to which to belong'
+
+    @swagger_auto_schema(manual_parameters=[id_track_get])
     def get(self, request):
         track = request.query_params['id']
         playlists = PlayListTrack.objects.filter(playlist__owner=request.user,
@@ -79,6 +92,9 @@ class TrackPlayListsView(APIView):
         serializer = PlayListTrackSerializer(playlists, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(operation_description=description_post,
+                         request_body=PlaylistTrackSerializerBody,
+                         responses={201: 'ok'})
     def post(self, request):
         playlists_ids = request.data['playlists']
         track_id = request.data['track']
@@ -88,4 +104,4 @@ class TrackPlayListsView(APIView):
         for playlist_id in playlists_ids:
             playlist = PlayList.objects.get(pk=playlist_id)
             PlayListTrack(playlist=playlist, track=track).save()
-        return Response({'status': 'ok'})
+        return Response({201: 'ok'})

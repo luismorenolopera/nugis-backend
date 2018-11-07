@@ -19,7 +19,6 @@ POSTGRES_DB=postgres_db
 in .envs/.production/.django
 
 ```txt
-DEBUG=ON
 SECRET_KEY=wu$!2-h800e^p5gw(1gwe-=iwri8$2_j)903+^c6)k8eo4wl1-
 ALLOWED_HOST=167.99.149.8
 SENTRY_DSN=https://cc0ac12d9ac94e5c223bd0a3eab5361c@sentry.io/2011301
@@ -40,7 +39,7 @@ check 'localhost'
 
 note:
 
-for production change production.yml for local.yml
+for local development change production.yml for local.yml
 and localhost for localhost:8000
 
 ### Authors

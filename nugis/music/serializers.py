@@ -83,3 +83,11 @@ class YoutubeSetSerializer(serializers.Serializer):
 
 class PlayListTrackSerializer(serializers.Serializer):
     playlist = serializers.PrimaryKeyRelatedField(read_only=True)
+
+
+class PlaylistTrackSerializerBody(serializers.Serializer):
+    track = serializers.IntegerField(help_text='id of a track')
+    playlists = serializers.ListField(
+        help_text='list of ids',
+        child=serializers.IntegerField()
+    )

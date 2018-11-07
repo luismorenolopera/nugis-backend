@@ -20,10 +20,12 @@ class APIYouTube(APIView):
         }],
         'outtmpl': settings.MEDIA_ROOT + '/documents/music/%(id)s.%(ext)s',
     }
-    id_get = openapi.Parameter('id',
-                               openapi.IN_QUERY,
-                               description='id from a youtube video',
-                               type=openapi.TYPE_STRING)
+    id_get = openapi.Parameter(
+        'id',
+        openapi.IN_QUERY,
+        description='id from a youtube video',
+        type=openapi.TYPE_STRING
+    )
     track_response = openapi.Response('Created', TrackSerializer)
 
     @swagger_auto_schema(manual_parameters=[id_get])

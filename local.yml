@@ -10,7 +10,7 @@ services:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
     volumes:
-      - .:/app/src
+      - .:/app
       - local_media_volume:/app/media
     networks:
       - postgres_network
