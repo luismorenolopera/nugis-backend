@@ -23,11 +23,11 @@ psycopg2==2.7.5
 pytz==2018.5
 PyYAML==3.13
 raven==6.9.0
-requests==2.19.1
+requests==2.20.0
 ruamel.yaml==0.15.70
 six==1.11.0
 sqlparse==0.2.4
 swagger-spec-validator==2.4.0
 uritemplate==3.0.0
 urllib3==1.23
-youtube-dl==2018.9.18
+youtube-dl==2018.11.3
