@@ -36,6 +36,7 @@ $ docker-compose -f production.yml run django nugis/manage.py createsuperuser
 ```
 
 check 'localhost'
+<img src="https://image.ibb.co/hCiyyV/Screenshot-20181107-091625.png" alt="nugis-backend-preview" border="0">
 
 note:
 
