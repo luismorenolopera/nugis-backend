@@ -176,6 +176,9 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+# drf_yasg settings
+# https://drf-yasg.readthedocs.io/en/stable/settings.html
+
 SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS': {
       'Basic': {
