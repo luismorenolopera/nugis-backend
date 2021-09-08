@@ -18,7 +18,7 @@ jsonschema==2.6.0
 Markdown==2.6.11
 MarkupSafe==1.0
 mutagen==1.41.1
-Pillow==8.2.0
+Pillow==8.3.2
 psycopg2==2.7.5
 pytz==2018.5
 PyYAML==5.4
