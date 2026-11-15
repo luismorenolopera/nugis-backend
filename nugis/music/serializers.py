@@ -54,10 +54,11 @@ class GenreSerialializer(serializers.ModelSerializer):
 
 
 class GenreDetailSerialializer(serializers.ModelSerializer):
+    tracks = TrackSerializer(many=True, read_only=True)
+
     class Meta:
         model = Genre
         fields = ('id', 'name', 'tracks')
-        depth = 2
 
 
 class ArtistSerializer(serializers.ModelSerializer):
@@ -67,22 +68,24 @@ class ArtistSerializer(serializers.ModelSerializer):
 
 
 class ArtistDetailSerializer(serializers.ModelSerializer):
+    tracks = TrackSerializer(many=True, read_only=True)
+
     class Meta:
         model = Artist
         fields = ('id', 'alias', 'first_name', 'last_name', 'tracks')
-        depth = 2
 
 
 class PlayListSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
+    # Explicit nested serializer: with `depth` DRF used to dump the
+    # uploader's full User row (including the password hash).
+    tracks = TrackSerializer(many=True, read_only=True)
 
     class Meta:
         model = PlayList
         fields = ('id', 'name', 'owner', 'tracks')
-        read_only_fields = ('tracks',)
-        depth = 2
 
 
 class YoutubeSetSerializer(serializers.Serializer):

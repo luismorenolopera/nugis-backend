@@ -89,6 +89,15 @@ class PlaylistTests(BaseTest):
         got = self.client.get('/music/playlists/track?id={}'.format(track.pk)).data
         self.assertEqual(sorted(x['playlist'] for x in got), [p1.pk, p2.pk])
 
+    def test_playlist_does_not_leak_user_data(self):
+        track = self.make_track(self.bob)
+        pl = PlayList.objects.create(name='a', owner=self.alice)
+        pl.tracks.add(track)
+        res = self.client.get('/music/playlists/{}/'.format(pl.pk))
+        self.assertEqual(res.data['tracks'][0]['title'], 'Track')
+        self.assertNotIn('password', str(res.content))
+        self.assertTrue(res.data['tracks'][0]['file'].startswith('http'))
+
     def test_cannot_add_to_someone_elses_playlist(self):
         track = self.make_track(self.alice)
         theirs = PlayList.objects.create(name='bob', owner=self.bob)
