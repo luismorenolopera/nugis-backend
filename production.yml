@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   django:
     restart: always
@@ -21,7 +19,7 @@ services:
       - postgres
   nginx:
     restart: always
-    image: nginx:1.13
+    image: nginx:1.27-alpine
     ports:
       - 80:80
     volumes:
@@ -34,7 +32,7 @@ services:
       - nginx_network
   postgres:
     restart: always
-    image: postgres:10
+    image: postgres:16
     env_file:
       - ./.envs/.production/.postgres
     networks:

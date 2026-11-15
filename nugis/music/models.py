@@ -40,7 +40,7 @@ class Track(models.Model):
     title = models.CharField(max_length=100)
     duration = models.PositiveSmallIntegerField(blank=True, null=True)
     in_youtube = models.BooleanField(default=False)
-    thumbnail = models.URLField(default=None, blank=True, null=True)
+    thumbnail = models.URLField(max_length=500, default=None, blank=True, null=True)
     upload_date = models.DateTimeField(auto_now_add=True)
     upload_by = models.ForeignKey(User,
                                   on_delete=models.SET_NULL,
@@ -123,8 +123,11 @@ class PlayListTrack(models.Model):
 def get_duration(sender, instance, **kwargs):
     """Get the duration of a track before saving it."""
     if instance.file:
-        track = MP3(instance.file)
-        instance.duration = int(track.info.length)
+        try:
+            track = MP3(instance.file)
+            instance.duration = int(track.info.length)
+        except Exception:
+            instance.duration = None
 
 
 @receiver(post_delete, sender=Track)

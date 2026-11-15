@@ -1,35 +1,29 @@
-FROM python:3.6-alpine
-MAINTAINER Luis Moreno "l.david1929@gmail.com"
+FROM python:3.12-slim
+LABEL maintainer="Luis Moreno"
 
-RUN mkdir -p /opt/services/djangoapp/src
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+# ffmpeg is needed by yt-dlp to extract mp3 audio
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ffmpeg \
+  && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /opt/services/djangoapp/src
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 COPY . ./
 
-ENV PYTHONUNBUFFERED 1
-
-RUN apk update \
-  # psycopg2 dependencies
-  && apk add --virtual build-deps gcc python3-dev musl-dev \
-  && apk add postgresql-dev \
-  # Pillow dependencies
-  && apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev \
-  # CFFI dependencies
-  && apk add libffi-dev py-cffi \
-  # youtube_dl dependencies
-  && apk add ffmpeg
-
-# install requirements
-RUN pip install --no-cache-dir -r requirements.txt
-
-# collectstatic
+# collectstatic only needs a throwaway key at build time
 RUN cd nugis \
-  && python manage.py collectstatic --no-input
-# expose the port 8000
+  && SECRET_KEY=build-only python manage.py collectstatic --no-input
+
 EXPOSE 8000
 
-# define the default command to run when starting the container
 CMD ["gunicorn", \
      "--chdir", "nugis", \
      "--bind", ":8000", \
+     "--workers", "3", \
+     "--timeout", "300", \
      "nugis.wsgi:application" \
 ]

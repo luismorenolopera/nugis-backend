@@ -28,8 +28,7 @@ schema_view = get_schema_view(
         title="Nugis API",
         default_version='v1',
         description="API made with love",
-        terms_of_service="https://github.com/luismorenolopera/Nugis-Backend",
-        contact=openapi.Contact(email="l.david1929@gmail.com"),
+        terms_of_service="https://github.com/luismorenolopera/nugis-backend",
         license=openapi.License(name="MIT License"),
     ),
     validators=['ssv'],
@@ -48,7 +47,7 @@ urlpatterns = [
         views.obtain_auth_token
     ),
     path(
-        'api-auth',
+        'api-auth/',
         include('rest_framework.urls')
     ),
     path(
@@ -74,16 +73,14 @@ urlpatterns = [
         schema_view.with_ui('redoc', cache_timeout=0),
         name='schema-redoc'
     ),
-] + static(
-    settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
-)
+]
 
 if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        path(
-            '__debug__/',
-            include(debug_toolbar.urls)
-        ),
-    ] + urlpatterns
+    # In production nginx serves /media/ (see config/nginx).
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+    if 'debug_toolbar' in settings.INSTALLED_APPS:
+        import debug_toolbar
+        urlpatterns = [
+            path('__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
